@@ -1,0 +1,65 @@
+# CLI（crates/kura-rs）を crates.io に公開する。
+# タグ cli-v<版>（例: cli-v0.1.0）を push すると動く。crates/kura-rs/Cargo.toml の version と合わせること。
+#
+# crates.io の「信頼できる公開元（Trusted Publishing）」を使うので、API トークンを GitHub に置かない。
+# ただし Trusted Publishing は「すでに crates.io にあるクレート」にしか設定できない。なので:
+#
+#   1. 最初の 1 回（0.1.0）だけは、手元から手動で公開する
+#        cargo login                      # crates.io の API トークン（publish-new の権限）
+#        cargo publish -p kura-rs
+#   2. crates.io の kura-rs の Settings → Trusted Publishing → Add で GitHub を登録する
+#        Repository owner: h-kurashina / Repository name: kura
+#        Workflow filename: release-cli.yml / Environment: crates-io
+#   3. GitHub の Settings → Environments に crates-io を作る（必要なら承認者を付ける）
+#   4. 以降は version を上げてタグを push するだけ: git tag cli-v0.1.1 && git push origin cli-v0.1.1
+name: Release CLI
+
+on:
+  push:
+    tags: ["cli-v*"]
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup show active-toolchain
+      - uses: Swatinem/rust-cache@v2
+      # タグの版と Cargo.toml の版が違うまま公開しないように
+      - name: Tag matches Cargo.toml version
+        run: |
+          tag="${GITHUB_REF_NAME#cli-v}"
+          version="$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[] | select(.name == "kura-rs") | .version')"
+          echo "tag=$tag Cargo.toml=$version"
+          test "$tag" = "$version"
+      - name: Clippy
+        run: cargo clippy -p kura-rs --all-targets -- -D warnings
+      - name: Test
+        run: cargo test -p kura-rs --all-targets
+        env:
+          PROPTEST_CASES: "20000"
+      - name: Package (dry run)
+        run: cargo publish --dry-run -p kura-rs
+
+  publish:
+    name: Publish to crates.io
+    needs: test
+    runs-on: ubuntu-latest
+    environment: crates-io
+    permissions:
+      id-token: write # Trusted Publishing（GitHub の OIDC で短時間だけ有効なトークンをもらう）
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup show active-toolchain
+      - uses: rust-lang/crates-io-auth-action@v1
+        id: auth
+      - run: cargo publish -p kura-rs
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}

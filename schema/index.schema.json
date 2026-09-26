@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "PartSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "added": {
+          "format": "date",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "max_speedup": {
+          "description": "Largest speedup over the reference across all benchmark points.",
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "description": "Path of the part JSON relative to this index, e.g. `minhash.json`.",
+          "type": "string"
+        },
+        "reference": {
+          "description": "Name of the reference implementation, e.g. `datasketch`.",
+          "type": "string"
+        },
+        "sample": {
+          "type": "boolean"
+        },
+        "shelves": {
+          "items": {
+            "$ref": "#/$defs/Shelf"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        },
+        "translations": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Translations"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Translated title and description, same as the part's."
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "title",
+        "description",
+        "version",
+        "added",
+        "sample",
+        "shelves",
+        "reference",
+        "path"
+      ],
+      "type": "object"
+    },
+    "PartTranslation": {
+      "additionalProperties": false,
+      "description": "Translated title and description. Omitted fields fall back to English.",
+      "properties": {
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Shelf": {
+      "enum": [
+        "ai",
+        "security"
+      ],
+      "type": "string"
+    },
+    "Translations": {
+      "additionalProperties": false,
+      "description": "Translated text per locale. Add a field here to support a new locale.",
+      "properties": {
+        "de": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "German."
+        },
+        "es": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Spanish."
+        },
+        "fr": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "French."
+        },
+        "ja": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Japanese."
+        },
+        "ko": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Korean."
+        },
+        "pt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Brazilian Portuguese."
+        },
+        "zh": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Simplified Chinese."
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "parts": {
+      "description": "Sorted by name.",
+      "items": {
+        "$ref": "#/$defs/PartSummary"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "parts"
+  ],
+  "title": "PartIndex",
+  "type": "object"
+}

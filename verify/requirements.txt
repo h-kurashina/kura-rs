@@ -1,0 +1,7 @@
+# verify/run.py の参照実装（版を固定して、誰が動かしても同じ相手と比べる）
+datasketch==2.0.0
+numpy==2.5.3
+# file-hash の BLAKE3 側（SHA-256 側の hashlib は Python に付いてくる）
+blake3==1.0.9
+# minhash の実文書コーパス（Wikipedia の wikitext を平文にする。版が変わると平文も変わりうるので固定）
+mwparserfromhell==0.7.2

@@ -1,0 +1,15 @@
+[package]
+name = "kura-registry"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive"] }
+kura-schema = { version = "0.1.0", path = "../kura-schema" }
+schemars = "1.2.2"
+serde = "1.0.229"
+serde_json = { version = "1.0.151", features = ["float_roundtrip"] }

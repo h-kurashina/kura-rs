@@ -1,0 +1,118 @@
+# プルリクエストと main への push のたびに、Rust とサイトの両方を確認する。
+# ここが通らないものは main に取り込まない（ブランチ保護で必須にする）。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# 同じプルリクエストに続けて push したら、古い実行は止める
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust:
+    name: Rust (fmt, clippy, test, registry)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # Rust の版は rust-toolchain.toml に従って rustup が入れる
+      - run: rustup show active-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - name: Format
+        run: cargo fmt --all --check
+      - name: Clippy
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Validate registry/*.json
+        run: cargo run -p kura-registry -- check
+      - name: Generated files are up to date
+        run: cargo run -p kura-registry -- codegen --check
+      - name: Test
+        run: cargo test --all-targets
+
+  site:
+    name: Site (build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup show active-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install
+        working-directory: site
+        run: npm ci
+      # prebuild で kura-registry build（検証と site/public/r/ への書き出し）も走る
+      - name: Build
+        working-directory: site
+        run: npm run build
+
+  verify:
+    name: Verify parts (differential tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup show active-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: verify/requirements.txt
+      - name: Install reference implementations
+        run: pip install -r verify/requirements.txt
+      # minhash の実文書（Wikipedia の固定版）。corpus.json が変わらない限り取り直さない（取得は言語ごとに1リクエスト）
+      - name: Cache the minhash corpus
+        uses: actions/cache@v6
+        with:
+          path: verify/data/minhash/wikipedia
+          key: minhash-corpus-${{ hashFiles('verify/minhash/corpus.json') }}
+      # 参照実装と突き合わせ、registry の cases / passed と一致するかを見る（速さは機械によって変わるので見ない）
+      - name: minhash vs datasketch
+        run: python verify/run.py minhash --check
+      # SHA-256 は hashlib、BLAKE3 は blake3 パッケージと突き合わせる。期待値を壊したケースがすべて落ちることも見る
+      - name: file-hash vs hashlib / blake3
+        run: python verify/run.py file-hash --check
+      # NIST の "extremely long message"（1 GiB）。遅いので普段の cargo test では飛ばしている
+      - name: file-hash 1 GiB SHA-256 test vector
+        run: cargo test --release -p kura-parts --test file_hash_vectors -- --ignored
+      # シングル化の規則とコーパスの単体テスト（上で取得したコーパスも確かめる）
+      - name: minhash text tests (shingles, corpus)
+        run: python -m unittest discover -s verify/minhash -v
+      # 性質テストを CI ではさらに多く回す
+      - name: Property tests (20,000 cases per property)
+        run: cargo test --release -p kura-parts
+        env:
+          PROPTEST_CASES: "20000"
+
+  python:
+    name: Python package (kura-rs)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup show active-toolchain
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: crates/kura-py/pyproject.toml
+      # Rust をビルドして入れ、テスト用の依存（datasketch・hypothesis など）も入れる
+      - name: Build and install
+        run: pip install "./crates/kura-py[test]"
+      - name: Test against datasketch (5,000 cases per property)
+        working-directory: crates/kura-py
+        run: pytest -q
+        env:
+          KURA_HYPOTHESIS_EXAMPLES: "5000"

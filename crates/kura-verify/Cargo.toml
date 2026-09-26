@@ -1,0 +1,14 @@
+[package]
+name = "kura-verify"
+version = "0.0.0"
+description = "Differential tests and benchmarks of the parts, driven by verify/run.py."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+kura-parts = { version = "0.0.0", path = "../kura-parts" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.151", features = ["float_roundtrip"] }
+sha1 = "0.11.0"

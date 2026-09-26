@@ -1,0 +1,127 @@
+{
+  "$schema": "../schema/part.schema.json",
+  "name": "minhash",
+  "title": "MinHash",
+  "description": "Near-duplicate detection with MinHash signatures, bit-for-bit compatible with datasketch. Estimates Jaccard similarity between token sets in constant space, for deduplicating RAG corpora and training data.",
+  "version": "0.1.0",
+  "added": "2026-09-26",
+  "sample": false,
+  "shelves": [
+    "ai"
+  ],
+  "rust": {
+    "files": [
+      "parts/minhash/mod.rs",
+      "parts/minhash/permutation.rs"
+    ],
+    "dependencies": [
+      {
+        "name": "sha1",
+        "version": "0.11",
+        "features": []
+      }
+    ]
+  },
+  "python": {
+    "package": "kura-rs",
+    "import_path": "from kura_rs import minhash"
+  },
+  "reference": {
+    "name": "datasketch",
+    "language": "Python",
+    "version": "2.0.0",
+    "url": "https://github.com/ekzhu/datasketch"
+  },
+  "verification": {
+    "method": "differential",
+    "cases": 27948,
+    "passed": 27948,
+    "last_run": "2026-09-26T14:33:18Z"
+  },
+  "benchmarks": [
+    {
+      "input_size": 10,
+      "rust_ms": 0.000708,
+      "reference_ms": 0.014667
+    },
+    {
+      "input_size": 30,
+      "rust_ms": 0.001917,
+      "reference_ms": 0.026917
+    },
+    {
+      "input_size": 100,
+      "rust_ms": 0.006292,
+      "reference_ms": 0.070542
+    },
+    {
+      "input_size": 301,
+      "rust_ms": 0.018792,
+      "reference_ms": 0.188667
+    },
+    {
+      "input_size": 670,
+      "rust_ms": 0.041667,
+      "reference_ms": 0.408334
+    },
+    {
+      "input_size": 2695,
+      "rust_ms": 0.167833,
+      "reference_ms": 1.605709
+    },
+    {
+      "input_size": 11477,
+      "rust_ms": 0.725541,
+      "reference_ms": 6.812083
+    },
+    {
+      "input_size": 26436,
+      "rust_ms": 1.673458,
+      "reference_ms": 15.499188
+    },
+    {
+      "input_size": 92652,
+      "rust_ms": 5.889584,
+      "reference_ms": 55.363604
+    },
+    {
+      "input_size": 263832,
+      "rust_ms": 16.775417,
+      "reference_ms": 161.369125
+    }
+  ],
+  "environment": {
+    "cpu": "Apple M4 Pro",
+    "os": "macOS 27.0 (arm64)",
+    "rust": "rustc 1.98.1",
+    "reference_runtime": "Python 3.14.6, numpy 2.5.3"
+  },
+  "input_unit": "word 3-shingles per document from Wikipedia: English paragraphs, whole articles and concatenated articles; the largest adds German, French and Korean articles (num_perm = 128)",
+  "usage": {
+    "rust": "use crate::parts::minhash::MinHasher;\n\n// Same num_perm and seed as datasketch.MinHash() → identical signatures\nlet hasher = MinHasher::new(128, 1);\n\nlet a = hasher.signature(\"the quick brown fox jumps\".split_whitespace());\nlet b = hasher.signature(\"the quick brown fox leaps\".split_whitespace());\n\nprintln!(\"estimated jaccard = {:.3}\", a.jaccard(&b));",
+    "python": "from kura_rs import minhash\n\n# Same num_perm and seed as datasketch.MinHash() → identical signatures\nhasher = minhash.MinHasher(num_perm=128, seed=1)\n\na = hasher.signature(\"the quick brown fox jumps\".split())\nb = hasher.signature(\"the quick brown fox leaps\".split())\n\nprint(f\"estimated jaccard = {a.jaccard(b):.3f}\")\n\n# Many documents at once (runs without holding the GIL)\nsigs = hasher.signatures([doc.split() for doc in documents])"
+  },
+  "translations": {
+    "ja": {
+      "description": "MinHash シグネチャによる近似重複検出。datasketch とビット単位で同じ結果を返します。トークン集合どうしの Jaccard 類似度を一定のメモリ量で推定し、RAG のコーパスや学習データの重複除去に使えます。"
+    },
+    "zh": {
+      "description": "基于 MinHash 签名的近似重复检测，结果与 datasketch 逐位一致。以常数空间估算 token 集合之间的 Jaccard 相似度，用于 RAG 语料库和训练数据的去重。"
+    },
+    "ko": {
+      "description": "MinHash 시그니처를 이용한 유사 중복 탐지. datasketch와 비트 단위로 같은 결과를 냅니다. 토큰 집합 간의 Jaccard 유사도를 일정한 메모리로 추정하여 RAG 코퍼스와 학습 데이터의 중복을 제거합니다."
+    },
+    "es": {
+      "description": "Detección de casi duplicados con firmas MinHash, idéntica bit a bit a datasketch. Estima la similitud de Jaccard entre conjuntos de tokens en espacio constante, para deduplicar corpus de RAG y datos de entrenamiento."
+    },
+    "fr": {
+      "description": "Détection de quasi-doublons à l'aide de signatures MinHash, identique bit à bit à datasketch. Estime la similarité de Jaccard entre des ensembles de tokens en espace constant, pour dédupliquer les corpus RAG et les données d'entraînement."
+    },
+    "de": {
+      "description": "Erkennung von Beinahe-Duplikaten mit MinHash-Signaturen, bitgenau kompatibel zu datasketch. Schätzt die Jaccard-Ähnlichkeit zwischen Token-Mengen bei konstantem Speicherbedarf – zur Deduplizierung von RAG-Korpora und Trainingsdaten."
+    },
+    "pt": {
+      "description": "Detecção de quase duplicatas com assinaturas MinHash, idêntica bit a bit ao datasketch. Estima a similaridade de Jaccard entre conjuntos de tokens em espaço constante, para deduplicar corpora de RAG e dados de treinamento."
+    }
+  }
+}

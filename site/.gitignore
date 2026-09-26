@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+# kura-registry build が書き出す（registry/*.json から毎回生成）
+public/r/
+public/schema/

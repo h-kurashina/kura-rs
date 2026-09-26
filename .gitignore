@@ -1,0 +1,15 @@
+/target/
+.DS_Store
+/crates/kura-py/dist/
+*.so
+*.pyd
+__pycache__/
+.pytest_cache/
+.hypothesis/
+
+# verify/run.py の作業用（仮想環境と、取得した実文書のキャッシュ。Wikipedia の本文は CC BY-SA なのでコミットしない）
+verify/.venv/
+verify/data/
+
+# Claude Code の作業用（エージェントの作業用コピーなど）
+/.claude/

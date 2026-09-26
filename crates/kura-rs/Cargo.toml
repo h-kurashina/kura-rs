@@ -1,0 +1,38 @@
+[package]
+name = "kura-rs"
+version = "0.1.0"
+description = "Copy small, verified Rust parts into your project. Installs the `kura` command."
+keywords = ["cli", "registry", "rag", "security", "copy-paste"]
+categories = ["command-line-utilities", "development-tools"]
+readme = "README.md"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+# ワークスペースの既定は publish = false。crates.io に出すのはこのクレートだけ
+publish = true
+# 配るのはソースと説明とライセンスだけ（テストはリポジトリの registry/ と parts/ を読むので含めない）
+include = ["src/**/*.rs", "README.md", "LICENSE-MIT", "LICENSE-APACHE"]
+
+# 同じ中身のコマンドを2つの名前で入れる。
+# 別のツールの `kura` とぶつかる人は `cargo install kura-rs --bin kura-rs` で `kura-rs` だけを入れる
+[[bin]]
+name = "kura"
+path = "src/bin/kura.rs"
+
+[[bin]]
+name = "kura-rs"
+path = "src/bin/kura-rs.rs"
+
+[dependencies]
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.151"
+ureq = "3.4.2"
+
+[dev-dependencies]
+# 正本のスキーマとのずれを確かめるためだけに使う（tests/schema_drift.rs）。
+# version を書かない path 依存の dev-dependency は、crates.io に出すときに外される
+kura-schema = { path = "../kura-schema" }
+proptest = "1.11.0"
+tempfile = "3.27.0"

@@ -1,0 +1,448 @@
+{
+  "$defs": {
+    "BenchmarkPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "input_size": {
+          "description": "Input size (x axis, plotted on a log scale).",
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reference_ms": {
+          "description": "Median wall time of the reference implementation, in milliseconds.",
+          "format": "double",
+          "type": "number"
+        },
+        "rust_ms": {
+          "description": "Median wall time of the kura Rust implementation, in milliseconds.",
+          "format": "double",
+          "type": "number"
+        }
+      },
+      "required": [
+        "input_size",
+        "rust_ms",
+        "reference_ms"
+      ],
+      "type": "object"
+    },
+    "CrateDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "features": {
+          "default": [],
+          "description": "Cargo features to enable. Empty when omitted.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "description": "Version requirement, e.g. `\"0.8\"`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "type": "object"
+    },
+    "Environment": {
+      "additionalProperties": false,
+      "description": "The machine and toolchains a benchmark ran on.",
+      "properties": {
+        "cpu": {
+          "description": "CPU, e.g. \"Apple M3 Pro\".",
+          "type": "string"
+        },
+        "os": {
+          "description": "Operating system, e.g. \"macOS 27.0 (arm64)\".",
+          "type": "string"
+        },
+        "reference_runtime": {
+          "description": "Runtime of the reference, e.g. \"Python 3.14.6, numpy 2.5.3\".",
+          "type": "string"
+        },
+        "rust": {
+          "description": "Rust compiler version, e.g. \"rustc 1.98.1\".",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cpu",
+        "os",
+        "rust",
+        "reference_runtime"
+      ],
+      "type": "object"
+    },
+    "PartTranslation": {
+      "additionalProperties": false,
+      "description": "Translated title and description. Omitted fields fall back to English.",
+      "properties": {
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "PythonPackage": {
+      "additionalProperties": false,
+      "description": "PyO3 package for Python users.",
+      "properties": {
+        "import_path": {
+          "description": "Import statement, e.g. `from kura_pack import minhash`.",
+          "type": "string"
+        },
+        "package": {
+          "description": "PyPI package name, e.g. `kura-pack`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "package",
+        "import_path"
+      ],
+      "type": "object"
+    },
+    "Reference": {
+      "additionalProperties": false,
+      "description": "The implementation kura is compared against.",
+      "properties": {
+        "language": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "language",
+        "version"
+      ],
+      "type": "object"
+    },
+    "RustSource": {
+      "additionalProperties": false,
+      "description": "Source that Rust users copy into their own project.",
+      "properties": {
+        "dependencies": {
+          "items": {
+            "$ref": "#/$defs/CrateDependency"
+          },
+          "type": "array"
+        },
+        "files": {
+          "description": "Paths relative to the kura repository root.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "files",
+        "dependencies"
+      ],
+      "type": "object"
+    },
+    "Shelf": {
+      "enum": [
+        "ai",
+        "security"
+      ],
+      "type": "string"
+    },
+    "Translations": {
+      "additionalProperties": false,
+      "description": "Translated text per locale. Add a field here to support a new locale.",
+      "properties": {
+        "de": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "German."
+        },
+        "es": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Spanish."
+        },
+        "fr": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "French."
+        },
+        "ja": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Japanese."
+        },
+        "ko": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Korean."
+        },
+        "pt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Brazilian Portuguese."
+        },
+        "zh": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PartTranslation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Simplified Chinese."
+        }
+      },
+      "type": "object"
+    },
+    "Usage": {
+      "additionalProperties": false,
+      "properties": {
+        "python": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rust": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rust"
+      ],
+      "type": "object"
+    },
+    "Verification": {
+      "additionalProperties": false,
+      "properties": {
+        "cases": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "last_run": {
+          "description": "When the verification last ran (RFC 3339).",
+          "format": "date-time",
+          "type": "string"
+        },
+        "method": {
+          "$ref": "#/$defs/VerificationMethod"
+        },
+        "passed": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "method",
+        "cases",
+        "passed",
+        "last_run"
+      ],
+      "type": "object"
+    },
+    "VerificationMethod": {
+      "oneOf": [
+        {
+          "const": "differential",
+          "description": "Same inputs fed to kura and the reference; outputs compared.",
+          "type": "string"
+        },
+        {
+          "const": "property",
+          "description": "Property-based tests.",
+          "type": "string"
+        },
+        {
+          "const": "golden",
+          "description": "Compared against fixed expected outputs.",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A kura-rs part. The content of `registry/<name>.json` and `/r/<name>.json`.",
+  "properties": {
+    "$schema": {
+      "description": "Reference to the JSON Schema, for editor completion.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "added": {
+      "description": "Date the part was added to the registry (YYYY-MM-DD). The site features the newest part.",
+      "format": "date",
+      "type": "string"
+    },
+    "benchmarks": {
+      "description": "Sorted by strictly increasing input size.",
+      "items": {
+        "$ref": "#/$defs/BenchmarkPoint"
+      },
+      "type": "array"
+    },
+    "description": {
+      "type": "string"
+    },
+    "environment": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Environment"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Where the benchmarks were measured. Written by `verify/run.py`; required when `sample` is false."
+    },
+    "input_unit": {
+      "description": "What `input_size` counts, e.g. \"tokens per document\".",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "name": {
+      "description": "Unique identifier in kebab-case. Also used as the file name and URL slug.",
+      "type": "string"
+    },
+    "python": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PythonPackage"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reference": {
+      "$ref": "#/$defs/Reference"
+    },
+    "rust": {
+      "$ref": "#/$defs/RustSource"
+    },
+    "sample": {
+      "description": "When true, verification and benchmark numbers are placeholders, not measurements.",
+      "type": "boolean"
+    },
+    "shelves": {
+      "description": "Shelves the part belongs to. At least one, no duplicates.",
+      "items": {
+        "$ref": "#/$defs/Shelf"
+      },
+      "type": "array"
+    },
+    "title": {
+      "type": "string"
+    },
+    "translations": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Translations"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Translations of the human-facing text. English (the fields above) is the default."
+    },
+    "usage": {
+      "$ref": "#/$defs/Usage"
+    },
+    "verification": {
+      "$ref": "#/$defs/Verification"
+    },
+    "version": {
+      "description": "Semantic version, e.g. `0.1.0`.",
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "title",
+    "description",
+    "version",
+    "added",
+    "sample",
+    "shelves",
+    "rust",
+    "reference",
+    "verification",
+    "benchmarks",
+    "usage"
+  ],
+  "title": "Part",
+  "type": "object"
+}

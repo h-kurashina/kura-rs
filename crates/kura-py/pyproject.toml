@@ -1,0 +1,37 @@
+[build-system]
+requires = ["maturin>=1.15,<2"]
+build-backend = "maturin"
+
+[project]
+name = "kura-rs"
+dynamic = ["version"]
+description = "Small, verified Rust parts for AI data processing and security, for Python."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT OR Apache-2.0"
+license-files = ["LICENSE-MIT", "LICENSE-APACHE"]
+authors = [{ name = "Hinata Kurashina", email = "h.kurashina49@gmail.com" }]
+keywords = ["minhash", "deduplication", "rag", "near-duplicate", "sha256", "blake3", "rust"]
+classifiers = [
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Text Processing",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+  "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/h-kurashina/kura-rs"
+Repository = "https://github.com/h-kurashina/kura-rs"
+
+[project.optional-dependencies]
+# テストで参照実装と突き合わせるためのもの（使うだけなら不要）
+test = ["pytest>=8", "hypothesis>=6", "datasketch==2.0.0", "numpy==2.5.3", "blake3==1.0.9"]
+
+[tool.maturin]
+python-source = "python"
+module-name = "kura_rs._native"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

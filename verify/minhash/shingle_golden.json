@@ -1,0 +1,1340 @@
+{
+ "separators": [
+  9,
+  10,
+  11,
+  12,
+  13,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63,
+  64,
+  91,
+  92,
+  93,
+  94,
+  95,
+  96,
+  123,
+  124,
+  125,
+  126,
+  133,
+  160,
+  161,
+  167,
+  171,
+  182,
+  183,
+  187,
+  191,
+  5760,
+  8192,
+  8193,
+  8194,
+  8195,
+  8196,
+  8197,
+  8198,
+  8199,
+  8200,
+  8201,
+  8202,
+  8208,
+  8209,
+  8210,
+  8211,
+  8212,
+  8213,
+  8216,
+  8217,
+  8218,
+  8219,
+  8220,
+  8221,
+  8222,
+  8223,
+  8224,
+  8225,
+  8226,
+  8230,
+  8232,
+  8233,
+  8239,
+  8240,
+  8242,
+  8243,
+  8249,
+  8250,
+  8251,
+  8287,
+  12288,
+  12289,
+  12290,
+  12291,
+  12296,
+  12297,
+  12298,
+  12299,
+  12300,
+  12301,
+  12302,
+  12303,
+  12304,
+  12305,
+  12308,
+  12309,
+  12310,
+  12311,
+  12316,
+  12317,
+  12318,
+  12319,
+  12539,
+  65281,
+  65282,
+  65283,
+  65285,
+  65286,
+  65287,
+  65288,
+  65289,
+  65290,
+  65292,
+  65293,
+  65294,
+  65295,
+  65306,
+  65307,
+  65311,
+  65312,
+  65339,
+  65340,
+  65341,
+  65343,
+  65371,
+  65373,
+  65374,
+  65377,
+  65380
+ ],
+ "cases": [
+  {
+   "mode": "word",
+   "text": "",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "char",
+   "text": "",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "word",
+   "text": " ",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "char",
+   "text": " ",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "word",
+   "text": "   \t\n",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "char",
+   "text": "   \t\n",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "word",
+   "text": "a",
+   "shingles": [
+    "a"
+   ],
+   "digest": "3f786850e387550fdab836ed7e6dc881de23001b"
+  },
+  {
+   "mode": "char",
+   "text": "a",
+   "shingles": [
+    "a"
+   ],
+   "digest": "3f786850e387550fdab836ed7e6dc881de23001b"
+  },
+  {
+   "mode": "word",
+   "text": "a b",
+   "shingles": [
+    "a b"
+   ],
+   "digest": "90ce62edf2fe4940e041a68b13e7b5f9d02bbf51"
+  },
+  {
+   "mode": "char",
+   "text": "a b",
+   "shingles": [
+    "ab"
+   ],
+   "digest": "5277cbb45a15902137d332d97e89cf8136545485"
+  },
+  {
+   "mode": "word",
+   "text": "a b c",
+   "shingles": [
+    "a b c"
+   ],
+   "digest": "bc472104b3ca47e4dab64b556795a73ee9e881e6"
+  },
+  {
+   "mode": "char",
+   "text": "a b c",
+   "shingles": [
+    "abc"
+   ],
+   "digest": "03cfd743661f07975fa2f1220c5194cbaff48451"
+  },
+  {
+   "mode": "word",
+   "text": "a b c d",
+   "shingles": [
+    "a b c",
+    "b c d"
+   ],
+   "digest": "6e4b519c9a8cf261625a426e4c3f3af43dbcafbf"
+  },
+  {
+   "mode": "char",
+   "text": "a b c d",
+   "shingles": [
+    "abc",
+    "bcd"
+   ],
+   "digest": "589ce7832df2bfb3307ee7c1f2a2521615d66822"
+  },
+  {
+   "mode": "word",
+   "text": "a a a a a",
+   "shingles": [
+    "a a a"
+   ],
+   "digest": "381dda06b38323919c926bed15ed563975cdf888"
+  },
+  {
+   "mode": "char",
+   "text": "a a a a a",
+   "shingles": [
+    "aaa"
+   ],
+   "digest": "972a1a11f19934401291cc99117ec614933374ce"
+  },
+  {
+   "mode": "word",
+   "text": "Hello, World! Hello world.",
+   "shingles": [
+    "hello world hello",
+    "world hello world"
+   ],
+   "digest": "84721495ad77e07051f5ca9537bc50aea8bdd193"
+  },
+  {
+   "mode": "char",
+   "text": "Hello, World! Hello world.",
+   "shingles": [
+    "hel",
+    "ell",
+    "llo",
+    "low",
+    "owo",
+    "wor",
+    "orl",
+    "rld",
+    "ldh",
+    "dhe"
+   ],
+   "digest": "88e5af202bb4ebdef739dffcd37b6eb58992d9e5"
+  },
+  {
+   "mode": "word",
+   "text": "The quick brown fox jumps over the lazy dog",
+   "shingles": [
+    "the quick brown",
+    "quick brown fox",
+    "brown fox jumps",
+    "fox jumps over",
+    "jumps over the",
+    "over the lazy",
+    "the lazy dog"
+   ],
+   "digest": "c15298e31ebd3ffafb108fd6a0353979527a2167"
+  },
+  {
+   "mode": "char",
+   "text": "The quick brown fox jumps over the lazy dog",
+   "shingles": [
+    "the",
+    "heq",
+    "equ",
+    "qui",
+    "uic",
+    "ick",
+    "ckb",
+    "kbr",
+    "bro",
+    "row",
+    "own",
+    "wnf",
+    "nfo",
+    "fox",
+    "oxj",
+    "xju",
+    "jum",
+    "ump",
+    "mps",
+    "pso",
+    "sov",
+    "ove",
+    "ver",
+    "ert",
+    "rth",
+    "hel",
+    "ela",
+    "laz",
+    "azy",
+    "zyd",
+    "ydo",
+    "dog"
+   ],
+   "digest": "2cf2dc3df6555eaa56f0f1b4645977dc48ef075c"
+  },
+  {
+   "mode": "word",
+   "text": "don't stop—believing… “quoted” «guillemets» ‹single›",
+   "shingles": [
+    "don t stop",
+    "t stop believing",
+    "stop believing quoted",
+    "believing quoted guillemets",
+    "quoted guillemets single"
+   ],
+   "digest": "d8c63ce3f9f2ed61ed168a9ee7f4bfe3a2c53d67"
+  },
+  {
+   "mode": "char",
+   "text": "don't stop—believing… “quoted” «guillemets» ‹single›",
+   "shingles": [
+    "don",
+    "ont",
+    "nts",
+    "tst",
+    "sto",
+    "top",
+    "opb",
+    "pbe",
+    "bel",
+    "eli",
+    "lie",
+    "iev",
+    "evi",
+    "vin",
+    "ing",
+    "ngq",
+    "gqu",
+    "quo",
+    "uot",
+    "ote",
+    "ted",
+    "edg",
+    "dgu",
+    "gui",
+    "uil",
+    "ill",
+    "lle",
+    "lem",
+    "eme",
+    "met",
+    "ets",
+    "tss",
+    "ssi",
+    "sin",
+    "ngl",
+    "gle"
+   ],
+   "digest": "029a58d1c00bace768e590b00bfa31936c08f894"
+  },
+  {
+   "mode": "word",
+   "text": "(parenthesized) [bracketed] {braced} <angled> a/b\\c|d",
+   "shingles": [
+    "parenthesized bracketed braced",
+    "bracketed braced angled",
+    "braced angled a",
+    "angled a b",
+    "a b c",
+    "b c d"
+   ],
+   "digest": "0cc82794e8fe60d02af782ff8b8f5f3189e90574"
+  },
+  {
+   "mode": "char",
+   "text": "(parenthesized) [bracketed] {braced} <angled> a/b\\c|d",
+   "shingles": [
+    "par",
+    "are",
+    "ren",
+    "ent",
+    "nth",
+    "the",
+    "hes",
+    "esi",
+    "siz",
+    "ize",
+    "zed",
+    "edb",
+    "dbr",
+    "bra",
+    "rac",
+    "ack",
+    "cke",
+    "ket",
+    "ete",
+    "ted",
+    "ace",
+    "ced",
+    "eda",
+    "dan",
+    "ang",
+    "ngl",
+    "gle",
+    "led",
+    "dab",
+    "abc",
+    "bcd"
+   ],
+   "digest": "aa6fcae4d597840fd9c75564b397d98c6128d4b3"
+  },
+  {
+   "mode": "word",
+   "text": "snake_case kebab-case dot.case camelCase PascalCase",
+   "shingles": [
+    "snake case kebab",
+    "case kebab case",
+    "kebab case dot",
+    "case dot case",
+    "dot case camelcase",
+    "case camelcase pascalcase"
+   ],
+   "digest": "24af8d42cf20f31c8b221178475ff06a8c7010f6"
+  },
+  {
+   "mode": "char",
+   "text": "snake_case kebab-case dot.case camelCase PascalCase",
+   "shingles": [
+    "sna",
+    "nak",
+    "ake",
+    "kec",
+    "eca",
+    "cas",
+    "ase",
+    "sek",
+    "eke",
+    "keb",
+    "eba",
+    "bab",
+    "abc",
+    "bca",
+    "sed",
+    "edo",
+    "dot",
+    "otc",
+    "tca",
+    "sec",
+    "cam",
+    "ame",
+    "mel",
+    "elc",
+    "lca",
+    "sep",
+    "epa",
+    "pas",
+    "asc",
+    "sca",
+    "cal",
+    "alc"
+   ],
+   "digest": "22bec264f796551f69f51293f6a47c60bae8231e"
+  },
+  {
+   "mode": "word",
+   "text": "1,000.5 3.14 2026-09-26 50% $100 #tag @user",
+   "shingles": [
+    "1 000 5",
+    "000 5 3",
+    "5 3 14",
+    "3 14 2026",
+    "14 2026 09",
+    "2026 09 26",
+    "09 26 50",
+    "26 50 100",
+    "50 100 tag",
+    "100 tag user"
+   ],
+   "digest": "7c9451a14813a97db7d0bae3e5f2b4feea365473"
+  },
+  {
+   "mode": "char",
+   "text": "1,000.5 3.14 2026-09-26 50% $100 #tag @user",
+   "shingles": [
+    "100",
+    "000",
+    "005",
+    "053",
+    "531",
+    "314",
+    "142",
+    "420",
+    "202",
+    "026",
+    "260",
+    "609",
+    "092",
+    "926",
+    "265",
+    "650",
+    "501",
+    "010",
+    "00t",
+    "0ta",
+    "tag",
+    "agu",
+    "gus",
+    "use",
+    "ser"
+   ],
+   "digest": "1fbc298ef56385783cd36f5cac7933d2ae64fd2e"
+  },
+  {
+   "mode": "word",
+   "text": "ΣΑΣ ΟΔΟΣ Σ ΣΑ. ὈΔΥΣΣΕΎΣ",
+   "shingles": [
+    "σας οδος σ",
+    "οδος σ σα",
+    "σ σα ὀδυσσεύς"
+   ],
+   "digest": "15c89dda2c158743f4479992ebb88687e6d5f80e"
+  },
+  {
+   "mode": "char",
+   "text": "ΣΑΣ ΟΔΟΣ Σ ΣΑ. ὈΔΥΣΣΕΎΣ",
+   "shingles": [
+    "σας",
+    "αςο",
+    "ςοδ",
+    "οδο",
+    "δος",
+    "οςσ",
+    "ςσσ",
+    "σσα",
+    "σαὀ",
+    "αὀδ",
+    "ὀδυ",
+    "δυσ",
+    "υσσ",
+    "σσε",
+    "σεύ",
+    "εύς"
+   ],
+   "digest": "34ec37691794c025bc41d3cea8c9884bc206aa05"
+  },
+  {
+   "mode": "word",
+   "text": "İstanbul IĞDIR ıi",
+   "shingles": [
+    "i̇stanbul iğdir ıi"
+   ],
+   "digest": "e57857294c76606fc32c007279d51633456cc1b2"
+  },
+  {
+   "mode": "char",
+   "text": "İstanbul IĞDIR ıi",
+   "shingles": [
+    "i̇s",
+    "̇st",
+    "sta",
+    "tan",
+    "anb",
+    "nbu",
+    "bul",
+    "uli",
+    "liğ",
+    "iğd",
+    "ğdi",
+    "dir",
+    "irı",
+    "rıi"
+   ],
+   "digest": "ef9a310a84aae0175e4dbdfbc0b5f507ec82068b"
+  },
+  {
+   "mode": "word",
+   "text": "Straße STRASSE ẞ",
+   "shingles": [
+    "straße strasse ß"
+   ],
+   "digest": "8908f0b15cd4a6c2005e24540fb527befa99f3c5"
+  },
+  {
+   "mode": "char",
+   "text": "Straße STRASSE ẞ",
+   "shingles": [
+    "str",
+    "tra",
+    "raß",
+    "aße",
+    "ßes",
+    "est",
+    "ras",
+    "ass",
+    "sse",
+    "seß"
+   ],
+   "digest": "bf2634f3f6864c2fdd9bcde0a85cea8c007b6d62"
+  },
+  {
+   "mode": "word",
+   "text": "ǅungla ǈ ǋ Ǳ",
+   "shingles": [
+    "ǆungla ǉ ǌ",
+    "ǉ ǌ ǳ"
+   ],
+   "digest": "4af214231ee2e21534b88a294adcc57a06348ea1"
+  },
+  {
+   "mode": "char",
+   "text": "ǅungla ǈ ǋ Ǳ",
+   "shingles": [
+    "ǆun",
+    "ung",
+    "ngl",
+    "gla",
+    "laǉ",
+    "aǉǌ",
+    "ǉǌǳ"
+   ],
+   "digest": "dceb58a77a654fef5f2bfb5635f3f43f01003a61"
+  },
+  {
+   "mode": "word",
+   "text": "K Å Ω Kelvin Ångström Ohm",
+   "shingles": [
+    "k å ω",
+    "å ω kelvin",
+    "ω kelvin ångström",
+    "kelvin ångström ohm"
+   ],
+   "digest": "ed366b249b23b2a351963bc7ebbdf15819473667"
+  },
+  {
+   "mode": "char",
+   "text": "K Å Ω Kelvin Ångström Ohm",
+   "shingles": [
+    "kåω",
+    "åωk",
+    "ωke",
+    "kel",
+    "elv",
+    "lvi",
+    "vin",
+    "inå",
+    "nån",
+    "ång",
+    "ngs",
+    "gst",
+    "str",
+    "trö",
+    "röm",
+    "ömo",
+    "moh",
+    "ohm"
+   ],
+   "digest": "c829e5aa2dbed316f09d3ee6f80b11c92f86f155"
+  },
+  {
+   "mode": "word",
+   "text": "ﬁnance ﬂow ﬀ",
+   "shingles": [
+    "ﬁnance ﬂow ﬀ"
+   ],
+   "digest": "ed485c3b18c7a31ad33806d67e37135640ef8aa3"
+  },
+  {
+   "mode": "char",
+   "text": "ﬁnance ﬂow ﬀ",
+   "shingles": [
+    "ﬁna",
+    "nan",
+    "anc",
+    "nce",
+    "ceﬂ",
+    "eﬂo",
+    "ﬂow",
+    "owﬀ"
+   ],
+   "digest": "b3965922d82b6e4123f12dde7e9cdb9bab53393a"
+  },
+  {
+   "mode": "word",
+   "text": "ᾼ ῌ ῼ Ὰͅ",
+   "shingles": [
+    "ᾳ ῃ ῳ",
+    "ῃ ῳ ᾲ"
+   ],
+   "digest": "35c3e6760ae787cd7aa346d271735175f1728ea5"
+  },
+  {
+   "mode": "char",
+   "text": "ᾼ ῌ ῼ Ὰͅ",
+   "shingles": [
+    "ᾳῃῳ",
+    "ῃῳὰ",
+    "ῳᾲ"
+   ],
+   "digest": "9e9d479ce1f0f67b18431cb45059dc4f7060a635"
+  },
+  {
+   "mode": "word",
+   "text": "Ａｂｃ ＡＢＣ ｱｲｳｴｵ",
+   "shingles": [
+    "ａｂｃ ａｂｃ ｱｲｳｴｵ"
+   ],
+   "digest": "664ca7d7b5d27288eaeffc8b9c1c7609ff37749f"
+  },
+  {
+   "mode": "char",
+   "text": "Ａｂｃ ＡＢＣ ｱｲｳｴｵ",
+   "shingles": [
+    "ａｂｃ",
+    "ｂｃａ",
+    "ｃａｂ",
+    "ｂｃｱ",
+    "ｃｱｲ",
+    "ｱｲｳ",
+    "ｲｳｴ",
+    "ｳｴｵ"
+   ],
+   "digest": "09647eaec6624c364248c9dae35c0fd7abdffdf2"
+  },
+  {
+   "mode": "word",
+   "text": "é é café café",
+   "shingles": [
+    "é é café",
+    "é café café"
+   ],
+   "digest": "b5a8124077cd58106b34c783c2dcddf556f00fb6"
+  },
+  {
+   "mode": "char",
+   "text": "é é café café",
+   "shingles": [
+    "éé",
+    "́éc",
+    "éca",
+    "caf",
+    "afe",
+    "fé",
+    "éc",
+    "́ca",
+    "afé"
+   ],
+   "digest": "fffd9f8033ab5cd987e23f61c3fc4c80bef2d031"
+  },
+  {
+   "mode": "word",
+   "text": "a​b c‌d e⁠f",
+   "shingles": [
+    "a​b c‌d e⁠f"
+   ],
+   "digest": "6e56be60582ab83d33992138833e105ba464aa36"
+  },
+  {
+   "mode": "char",
+   "text": "a​b c‌d e⁠f",
+   "shingles": [
+    "a​b",
+    "​bc",
+    "bc‌",
+    "c‌d",
+    "‌de",
+    "de⁠",
+    "e⁠f"
+   ],
+   "digest": "23093834a3ab7ea439f5b8c60498b33cac609b7c"
+  },
+  {
+   "mode": "word",
+   "text": "x\u001cy\u001dz\u001e w\u001f",
+   "shingles": [
+    "x\u001cy\u001dz\u001e w\u001f"
+   ],
+   "digest": "8dd2933e4c73fca5f7b9e28482ddc770325e3f3b"
+  },
+  {
+   "mode": "char",
+   "text": "x\u001cy\u001dz\u001e w\u001f",
+   "shingles": [
+    "x\u001cy",
+    "\u001cy\u001d",
+    "y\u001dz",
+    "\u001dz\u001e",
+    "z\u001ew",
+    "\u001ew\u001f"
+   ],
+   "digest": "5bbf7aa3fd9e987db352f2ea6ad7d84e56419f5b"
+  },
+  {
+   "mode": "word",
+   "text": "tab\tnew\nline\r\ncr\rff\fvt\u000bnelnbsp end",
+   "shingles": [
+    "tab new line",
+    "new line cr",
+    "line cr ff",
+    "cr ff vt",
+    "ff vt nel",
+    "vt nel nbsp",
+    "nel nbsp end"
+   ],
+   "digest": "cb33961f9b14de3353bab9a4a257d36ea3d72779"
+  },
+  {
+   "mode": "char",
+   "text": "tab\tnew\nline\r\ncr\rff\fvt\u000bnelnbsp end",
+   "shingles": [
+    "tab",
+    "abn",
+    "bne",
+    "new",
+    "ewl",
+    "wli",
+    "lin",
+    "ine",
+    "nec",
+    "ecr",
+    "crf",
+    "rff",
+    "ffv",
+    "fvt",
+    "vtn",
+    "tne",
+    "nel",
+    "eln",
+    "lnb",
+    "nbs",
+    "bsp",
+    "spe",
+    "pen",
+    "end"
+   ],
+   "digest": "c0d9727675a14b65801d7b862268382fbc12c209"
+  },
+  {
+   "mode": "word",
+   "text": "　全角スペース　と em space thin",
+   "shingles": [
+    "全角スペース と em",
+    "と em space",
+    "em space thin"
+   ],
+   "digest": "cac344ce7ec3398123ec0f06ea2127f0134a2408"
+  },
+  {
+   "mode": "char",
+   "text": "　全角スペース　と em space thin",
+   "shingles": [
+    "全角ス",
+    "角スペ",
+    "スペー",
+    "ペース",
+    "ースと",
+    "スとe",
+    "とem",
+    "ems",
+    "msp",
+    "spa",
+    "pac",
+    "ace",
+    "cet",
+    "eth",
+    "thi",
+    "hin"
+   ],
+   "digest": "be345705f2ddbf16ad78ed67e516542249446258"
+  },
+  {
+   "mode": "word",
+   "text": "日本語のテキスト。",
+   "shingles": [
+    "日本語のテキスト"
+   ],
+   "digest": "611a1ce35b9f4becc63b8b4cfa5c6f113940ad17"
+  },
+  {
+   "mode": "char",
+   "text": "日本語のテキスト。",
+   "shingles": [
+    "日本語",
+    "本語の",
+    "語のテ",
+    "のテキ",
+    "テキス",
+    "キスト"
+   ],
+   "digest": "d076f9925a1fdf921984253e4163d58587b1f8ff"
+  },
+  {
+   "mode": "word",
+   "text": "東京都は、日本の首都である。",
+   "shingles": [
+    "東京都は 日本の首都である"
+   ],
+   "digest": "32a03c85ab0fa502d53649f3894d689157665f63"
+  },
+  {
+   "mode": "char",
+   "text": "東京都は、日本の首都である。",
+   "shingles": [
+    "東京都",
+    "京都は",
+    "都は日",
+    "は日本",
+    "日本の",
+    "本の首",
+    "の首都",
+    "首都で",
+    "都であ",
+    "である"
+   ],
+   "digest": "8ac4c08a64961b7961b143f08a6376390c18ac17"
+  },
+  {
+   "mode": "word",
+   "text": "「かぎかっこ」『二重』（丸括弧）【隅付き】",
+   "shingles": [
+    "かぎかっこ 二重 丸括弧",
+    "二重 丸括弧 隅付き"
+   ],
+   "digest": "9ee69096329d910424c64e3ed5126fce6170d41b"
+  },
+  {
+   "mode": "char",
+   "text": "「かぎかっこ」『二重』（丸括弧）【隅付き】",
+   "shingles": [
+    "かぎか",
+    "ぎかっ",
+    "かっこ",
+    "っこ二",
+    "こ二重",
+    "二重丸",
+    "重丸括",
+    "丸括弧",
+    "括弧隅",
+    "弧隅付",
+    "隅付き"
+   ],
+   "digest": "18423922f34b8a483f9d33d893d72817e4c3e599"
+  },
+  {
+   "mode": "word",
+   "text": "Rust は速い、Python は書きやすい。",
+   "shingles": [
+    "rust は速い python",
+    "は速い python は書きやすい"
+   ],
+   "digest": "e96e69c10bbf46b53330360a500e8663371bf874"
+  },
+  {
+   "mode": "char",
+   "text": "Rust は速い、Python は書きやすい。",
+   "shingles": [
+    "rus",
+    "ust",
+    "stは",
+    "tは速",
+    "は速い",
+    "速いp",
+    "いpy",
+    "pyt",
+    "yth",
+    "tho",
+    "hon",
+    "onは",
+    "nは書",
+    "は書き",
+    "書きや",
+    "きやす",
+    "やすい"
+   ],
+   "digest": "4ee706f8a089a37a0fdb0a26d9392234199d264d"
+  },
+  {
+   "mode": "word",
+   "text": "ｶﾀｶﾅ ﾃｷｽﾄ｡ ﾃﾞｽ､",
+   "shingles": [
+    "ｶﾀｶﾅ ﾃｷｽﾄ ﾃﾞｽ"
+   ],
+   "digest": "b833465d90e426c5e3d53e6483dd9e5383d6161c"
+  },
+  {
+   "mode": "char",
+   "text": "ｶﾀｶﾅ ﾃｷｽﾄ｡ ﾃﾞｽ､",
+   "shingles": [
+    "ｶﾀｶ",
+    "ﾀｶﾅ",
+    "ｶﾅﾃ",
+    "ﾅﾃｷ",
+    "ﾃｷｽ",
+    "ｷｽﾄ",
+    "ｽﾄﾃ",
+    "ﾄﾃﾞ",
+    "ﾃﾞｽ"
+   ],
+   "digest": "285e61548d32b619655fcc3f650eeee7cd6d2927"
+  },
+  {
+   "mode": "word",
+   "text": "我爱北京天安门。长城！",
+   "shingles": [
+    "我爱北京天安门 长城"
+   ],
+   "digest": "467afca0db4c35c58f8d31442f52abff8005fd6e"
+  },
+  {
+   "mode": "char",
+   "text": "我爱北京天安门。长城！",
+   "shingles": [
+    "我爱北",
+    "爱北京",
+    "北京天",
+    "京天安",
+    "天安门",
+    "安门长",
+    "门长城"
+   ],
+   "digest": "ba81c8e5e66c7a2a3e849fb53dc58e933e260adb"
+  },
+  {
+   "mode": "word",
+   "text": "대한민국은 동아시아의 한반도 군사 분계선 남부에 위치한 나라이다.",
+   "shingles": [
+    "대한민국은 동아시아의 한반도",
+    "동아시아의 한반도 군사",
+    "한반도 군사 분계선",
+    "군사 분계선 남부에",
+    "분계선 남부에 위치한",
+    "남부에 위치한 나라이다"
+   ],
+   "digest": "2fca06bdd2199f982007b9f154a8b30a0df5b441"
+  },
+  {
+   "mode": "char",
+   "text": "대한민국은 동아시아의 한반도 군사 분계선 남부에 위치한 나라이다.",
+   "shingles": [
+    "대한민",
+    "한민국",
+    "민국은",
+    "국은동",
+    "은동아",
+    "동아시",
+    "아시아",
+    "시아의",
+    "아의한",
+    "의한반",
+    "한반도",
+    "반도군",
+    "도군사",
+    "군사분",
+    "사분계",
+    "분계선",
+    "계선남",
+    "선남부",
+    "남부에",
+    "부에위",
+    "에위치",
+    "위치한",
+    "치한나",
+    "한나라",
+    "나라이",
+    "라이다"
+   ],
+   "digest": "7d8316f80a40a2187c082cd70d51e18f0d4dc193"
+  },
+  {
+   "mode": "word",
+   "text": "🦀🦀🦀🦀 🦀 crab 🦀",
+   "shingles": [
+    "🦀🦀🦀🦀 🦀 crab",
+    "🦀 crab 🦀"
+   ],
+   "digest": "4770ed37bc5aade92b401d3826ef222835f7467f"
+  },
+  {
+   "mode": "char",
+   "text": "🦀🦀🦀🦀 🦀 crab 🦀",
+   "shingles": [
+    "🦀🦀🦀",
+    "🦀🦀c",
+    "🦀cr",
+    "cra",
+    "rab",
+    "ab🦀"
+   ],
+   "digest": "0a50fa6a6ef3374a2039fea663e002ef6824aeb7"
+  },
+  {
+   "mode": "word",
+   "text": "👨‍👩‍👧 family",
+   "shingles": [
+    "👨‍👩‍👧 family"
+   ],
+   "digest": "c9b24439895d20bc35b47bb0b1ea95fbe3f41bac"
+  },
+  {
+   "mode": "char",
+   "text": "👨‍👩‍👧 family",
+   "shingles": [
+    "👨‍👩",
+    "‍👩‍",
+    "👩‍👧",
+    "‍👧f",
+    "👧fa",
+    "fam",
+    "ami",
+    "mil",
+    "ily"
+   ],
+   "digest": "b9d634ab58ae404fd1059efbfc4181d492691f9e"
+  },
+  {
+   "mode": "word",
+   "text": "العربية نص",
+   "shingles": [
+    "العربية نص"
+   ],
+   "digest": "010536d045f15c77861b65ccbe24427552604ba5"
+  },
+  {
+   "mode": "char",
+   "text": "العربية نص",
+   "shingles": [
+    "الع",
+    "لعر",
+    "عرب",
+    "ربي",
+    "بية",
+    "يةن",
+    "ةنص"
+   ],
+   "digest": "9dd8b484b36317ed221d1ad818c81cb7ae21ce86"
+  },
+  {
+   "mode": "word",
+   "text": "עִבְרִית טקסט",
+   "shingles": [
+    "עִבְרִית טקסט"
+   ],
+   "digest": "59aa11806422d9e46644f449154f5a81f1464a36"
+  },
+  {
+   "mode": "char",
+   "text": "עִבְרִית טקסט",
+   "shingles": [
+    "עִב",
+    "ִבְ",
+    "בְר",
+    "ְרִ",
+    "רִי",
+    "ִית",
+    "יתט",
+    "תטק",
+    "טקס",
+    "קסט"
+   ],
+   "digest": "dac9e1293302cfd4db52128b9fba6637f648ca48"
+  },
+  {
+   "mode": "word",
+   "text": "Москва ПРИВЕТ мир",
+   "shingles": [
+    "москва привет мир"
+   ],
+   "digest": "9de4d29c5e7011174d011e2b833f14425aa6acb3"
+  },
+  {
+   "mode": "char",
+   "text": "Москва ПРИВЕТ мир",
+   "shingles": [
+    "мос",
+    "оск",
+    "скв",
+    "ква",
+    "вап",
+    "апр",
+    "при",
+    "рив",
+    "иве",
+    "вет",
+    "етм",
+    "тми",
+    "мир"
+   ],
+   "digest": "b5d75f51fe3810944e54f4c50987cc242987a92a"
+  },
+  {
+   "mode": "word",
+   "text": "ÀÉÎÕÜ àéîõü",
+   "shingles": [
+    "àéîõü àéîõü"
+   ],
+   "digest": "a77fe3902c25d0efe0b0d3e30c8c4593f1d5f54d"
+  },
+  {
+   "mode": "char",
+   "text": "ÀÉÎÕÜ àéîõü",
+   "shingles": [
+    "àéî",
+    "éîõ",
+    "îõü",
+    "õüà",
+    "üàé"
+   ],
+   "digest": "79a0882a76946d060611a62a126d6152314fd288"
+  },
+  {
+   "mode": "word",
+   "text": "a\u0000b",
+   "shingles": [
+    "a\u0000b"
+   ],
+   "digest": "11f7c3a45ed637be4bf4be8cb1748f05c7fbc297"
+  },
+  {
+   "mode": "char",
+   "text": "a\u0000b",
+   "shingles": [
+    "a\u0000b"
+   ],
+   "digest": "11f7c3a45ed637be4bf4be8cb1748f05c7fbc297"
+  },
+  {
+   "mode": "word",
+   "text": "﻿bom start",
+   "shingles": [
+    "﻿bom start"
+   ],
+   "digest": "0f8fb3f41c2740e14a16e8049271aed94dcee7fc"
+  },
+  {
+   "mode": "char",
+   "text": "﻿bom start",
+   "shingles": [
+    "﻿bo",
+    "bom",
+    "oms",
+    "mst",
+    "sta",
+    "tar",
+    "art"
+   ],
+   "digest": "89ded1c9d06ac2b9ef2fce85979b67a8e0f802eb"
+  },
+  {
+   "mode": "word",
+   "text": "~!@#$%^&*()_+`-={}|[]\\:\";'<>?,./",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "char",
+   "text": "~!@#$%^&*()_+`-={}|[]\\:\";'<>?,./",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "word",
+   "text": "…",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "char",
+   "text": "…",
+   "shingles": [],
+   "digest": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  {
+   "mode": "word",
+   "text": "a…b…c…d",
+   "shingles": [
+    "a b c",
+    "b c d"
+   ],
+   "digest": "6e4b519c9a8cf261625a426e4c3f3af43dbcafbf"
+  },
+  {
+   "mode": "char",
+   "text": "a…b…c…d",
+   "shingles": [
+    "abc",
+    "bcd"
+   ],
+   "digest": "589ce7832df2bfb3307ee7c1f2a2521615d66822"
+  },
+  {
+   "mode": "word",
+   "text": "・・・中黒・区切り・",
+   "shingles": [
+    "中黒 区切り"
+   ],
+   "digest": "0d9cdda92b5db778592191d85c8917acfc1782c4"
+  },
+  {
+   "mode": "char",
+   "text": "・・・中黒・区切り・",
+   "shingles": [
+    "中黒区",
+    "黒区切",
+    "区切り"
+   ],
+   "digest": "239adffda91b3c4a63a2cbae0c911a0926191dd7"
+  }
+ ]
+}

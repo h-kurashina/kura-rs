@@ -1,0 +1,20 @@
+[package]
+name = "kura-py"
+version = "0.1.0"
+description = "Python bindings of kura-rs (published to PyPI as kura-rs)."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lib]
+# Python から import kura_rs._native で読み込む拡張モジュール
+name = "_native"
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+kura-parts = { version = "0.0.0", path = "../kura-parts" }
+pyo3 = { version = "0.29.2", features = ["extension-module", "abi3-py39"] }
+
+[build-dependencies]
+pyo3-build-config = "0.29.2"

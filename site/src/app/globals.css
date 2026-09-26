@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  /* カードやコードなど、背景から一段浮いた面 */
+  --card: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #a3a3a3;
+  --code: #fafafa;
+  --code-header: #f5f5f5;
+  /* グラフの系列色（dataviz の基準パレット slot 1 / 2、検証済み） */
+  --series-rust: #2a78d6;
+  --series-reference: #eb6834;
+  --chart-grid: #ececec;
+  --chart-slower: #f5f5f5;
+}
+
+/* OS の設定（ライト／ダーク）に自動で追従する。手動の切り替えは置かない */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #fafafa;
+    --card: #141414;
+    --muted: #262626;
+    --muted-foreground: #a1a1a1;
+    --accent: #262626;
+    --primary: #e5e5e5;
+    --primary-foreground: #171717;
+    --secondary: #262626;
+    --border: rgb(255 255 255 / 0.1);
+    --input: rgb(255 255 255 / 0.15);
+    --ring: #737373;
+    --code: #141414;
+    --code-header: #1c1c1c;
+    --series-rust: #3987e5;
+    --series-reference: #d95926;
+    --chart-grid: #262626;
+    --chart-slower: #1c1c1c;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-code: var(--code);
+  --color-code-header: var(--code-header);
+  --color-series-rust: var(--series-rust);
+  --color-series-reference: var(--series-reference);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* 本文の書体。既定は Noto Sans JP（ラテン文字と日本語）。韓国語・中国語のページはその言語の書体を先に使う */
+html {
+  --font-body: var(--font-noto-sans-jp);
+}
+html:lang(ko) {
+  --font-body: var(--font-noto-sans-kr), var(--font-noto-sans-jp);
+}
+html:lang(zh) {
+  --font-body: var(--font-noto-sans-sc), var(--font-noto-sans-jp);
+}
+
+/* 日本語の見出しは文節の切れ目で改行する（対応ブラウザのみ） */
+html:lang(ja) :is(h1, h2, h3) {
+  word-break: auto-phrase;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    color-scheme: light dark;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Shiki の2テーマ出力。既定はライト、OS がダークのときは --shiki-dark を使う */
+.shiki {
+  background-color: transparent !important;
+}
+@media (prefers-color-scheme: dark) {
+  .shiki,
+  .shiki span {
+    color: var(--shiki-dark) !important;
+  }
+}
+
+/*
+ * 控えめなアニメーション。OS で「視差効果を減らす」を選んでいる人には一切動かさない。
+ * - anim-enter: 読み込み時に下から少しだけ浮かび上がる。--i で順番に遅らせる
+ * - anim-reveal: スクロールで画面に入ったときに浮かび上がる（対応ブラウザのみ。非対応ならそのまま表示）
+ * - anim-draw / anim-grow: グラフの線や進捗バーが左から伸びる
+ * - anim-pop / anim-fade: メニューやダイアログの出現
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .anim-enter {
+    animation: kura-enter 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  @supports (animation-timeline: view()) {
+    .anim-reveal {
+      animation: kura-enter linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+  .anim-draw {
+    transform-box: fill-box;
+    transform-origin: left center;
+    animation: kura-scale-x 1.1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.25s both;
+  }
+  .anim-grow {
+    transform-origin: left center;
+    animation: kura-scale-x 0.9s cubic-bezier(0.3, 0.7, 0.2, 1) 0.35s both;
+  }
+  .anim-pop {
+    animation: kura-pop 0.16s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .anim-fade {
+    animation: kura-fade 0.2s ease-out both;
+  }
+}
+
+@keyframes kura-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes kura-scale-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes kura-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(-2px);
+  }
+}
+@keyframes kura-fade {
+  from {
+    opacity: 0;
+  }
+}

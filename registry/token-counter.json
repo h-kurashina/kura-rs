@@ -1,0 +1,101 @@
+{
+  "$schema": "../schema/part.schema.json",
+  "name": "token-counter",
+  "title": "Token Counter",
+  "description": "Counts BPE tokens for OpenAI-compatible encodings (cl100k_base, o200k_base) without building the token list.",
+  "version": "0.1.0",
+  "added": "2026-09-26",
+  "sample": true,
+  "shelves": [
+    "ai"
+  ],
+  "rust": {
+    "files": [
+      "parts/token_counter/mod.rs",
+      "parts/token_counter/bpe.rs",
+      "parts/token_counter/ranks.rs"
+    ],
+    "dependencies": [
+      {
+        "name": "fancy-regex",
+        "version": "0.14",
+        "features": []
+      },
+      {
+        "name": "rustc-hash",
+        "version": "2",
+        "features": []
+      }
+    ]
+  },
+  "python": {
+    "package": "kura-rs",
+    "import_path": "from kura_rs import token_counter"
+  },
+  "reference": {
+    "name": "tiktoken",
+    "language": "Python",
+    "version": "0.9.0",
+    "url": "https://github.com/openai/tiktoken"
+  },
+  "verification": {
+    "method": "differential",
+    "cases": 5000,
+    "passed": 5000,
+    "last_run": "2026-09-26T00:00:00Z"
+  },
+  "benchmarks": [
+    {
+      "input_size": 100,
+      "rust_ms": 0.05,
+      "reference_ms": 0.03
+    },
+    {
+      "input_size": 1000,
+      "rust_ms": 0.31,
+      "reference_ms": 0.3
+    },
+    {
+      "input_size": 10000,
+      "rust_ms": 2.6,
+      "reference_ms": 3.4
+    },
+    {
+      "input_size": 100000,
+      "rust_ms": 24,
+      "reference_ms": 36
+    },
+    {
+      "input_size": 1000000,
+      "rust_ms": 235,
+      "reference_ms": 390
+    }
+  ],
+  "usage": {
+    "rust": "use crate::parts::token_counter::{Encoding, count};\n\nlet n = count(Encoding::O200kBase, &prompt);\nassert!(n <= 128_000, \"prompt too long: {n} tokens\");",
+    "python": "from kura_rs import token_counter\n\nn = token_counter.count(\"o200k_base\", prompt)\nassert n <= 128_000, f\"prompt too long: {n} tokens\""
+  },
+  "translations": {
+    "ja": {
+      "description": "OpenAI 互換のエンコーディング（cl100k_base、o200k_base）で BPE トークン数を数えます。トークンの一覧は作りません。"
+    },
+    "zh": {
+      "description": "按 OpenAI 兼容编码（cl100k_base、o200k_base）统计 BPE token 数量，无需构建 token 列表。"
+    },
+    "ko": {
+      "description": "OpenAI 호환 인코딩(cl100k_base, o200k_base)의 BPE 토큰 수를 셉니다. 토큰 목록은 만들지 않습니다."
+    },
+    "es": {
+      "description": "Cuenta tokens BPE para codificaciones compatibles con OpenAI (cl100k_base, o200k_base) sin construir la lista de tokens."
+    },
+    "fr": {
+      "description": "Compte les tokens BPE des encodages compatibles OpenAI (cl100k_base, o200k_base) sans construire la liste des tokens."
+    },
+    "de": {
+      "description": "Zählt BPE-Tokens für OpenAI-kompatible Kodierungen (cl100k_base, o200k_base), ohne die Token-Liste aufzubauen."
+    },
+    "pt": {
+      "description": "Conta tokens BPE para codificações compatíveis com a OpenAI (cl100k_base, o200k_base) sem montar a lista de tokens."
+    }
+  }
+}
