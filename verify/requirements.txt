@@ -5,3 +5,7 @@ numpy==2.5.3
 blake3==1.0.9
 # minhash の実文書コーパス（Wikipedia の wikitext を平文にする。版が変わると平文も変わりうるので固定）
 mwparserfromhell==0.7.2
+# multi-pattern-match の参照実装（Aho–Corasick の C 拡張）
+pyahocorasick==2.3.1
+# byte-entropy（scipy.stats.entropy と、その中で使う numpy。numpy は上で固定）
+scipy==1.18.1
