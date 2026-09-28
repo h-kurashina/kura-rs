@@ -1,11 +1,19 @@
 # プルリクエストと main への push のたびに、Rust とサイトの両方を確認する。
 # ここが通らないものは main に取り込まない（ブランチ保護で必須にする）。
+#
+# ランダムな入力を作るテスト（proptest・hypothesis）の件数は、場面で変える：
+#   プルリクエスト               … 少なめ（すぐ結果が出るように）
+#   main への push・毎週月曜・手動 … 多め（時間をかけて深く探す）
+# 参照実装との差分テスト（verify/run.py --check）は、registry に記録した件数と比べるので、いつも全件。
 name: CI
 
 on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "0 18 * * 0" # 毎週月曜 3:00（日本時間）
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,6 +25,8 @@ concurrency:
 
 env:
   CARGO_TERM_COLOR: always
+  # Python の hypothesis の件数。プルリクエストでは少なめ、それ以外（main・定期・手動）では多め
+  KURA_HYPOTHESIS_EXAMPLES: ${{ github.event_name == 'pull_request' && '300' || '5000' }}
 
 jobs:
   rust:
@@ -106,10 +116,11 @@ jobs:
       - name: minhash text tests (shingles, corpus)
         run: python -m unittest discover -s verify/minhash -v
       # 性質テストを CI ではさらに多く回す
-      - name: Property tests (20,000 cases per property)
+      - name: Property tests (PR 2,000 / main 20,000 cases per property)
         run: cargo test --release -p kura-parts
         env:
-          PROPTEST_CASES: "20000"
+          # ここだけで件数を上げる（ほかのジョブの cargo test は既定の 2,000 のまま）
+          PROPTEST_CASES: ${{ github.event_name == 'pull_request' && '2000' || '20000' }}
 
   python:
     name: Python package (kura-rs)
@@ -126,8 +137,6 @@ jobs:
       # Rust をビルドして入れ、テスト用の依存（datasketch・hypothesis など）も入れる
       - name: Build and install
         run: pip install "./crates/kura-py[test]"
-      - name: Test against datasketch (5,000 cases per property)
+      - name: Test against the reference implementations (PR 300 / main 5,000 cases per property)
         working-directory: crates/kura-py
         run: pytest -q
-        env:
-          KURA_HYPOTHESIS_EXAMPLES: "5000"
