@@ -7,7 +7,7 @@ type ButtonVariant = "primary" | "secondary" | "outline" | "ghost";
 type ButtonSize = "sm" | "md";
 
 const BUTTON_BASE =
-  "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50";
 const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   primary: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
   secondary: "bg-secondary text-foreground hover:bg-secondary/80",
@@ -24,7 +24,7 @@ export function buttonClass(variant: ButtonVariant = "primary", size: ButtonSize
 }
 
 export function Card({ className = "", ...props }: ComponentProps<"div">) {
-  return <div className={`rounded-xl border bg-card text-foreground shadow-xs ${className}`} {...props} />;
+  return <div className={`rounded-lg border bg-card text-foreground ${className}`} {...props} />;
 }
 
 export function CardHeader({ title, description, action }: { title: ReactNode; description?: ReactNode; action?: ReactNode }) {

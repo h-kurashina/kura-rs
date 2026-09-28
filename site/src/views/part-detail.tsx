@@ -66,7 +66,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
   const next = pos >= 0 && pos < all.length - 1 ? all[pos + 1] : undefined;
 
   return (
-    <div className="flex gap-12 py-8 lg:py-12">
+    <div className="flex gap-8 py-8 lg:py-12">
       <JsonLd
         data={{
           "@type": "SoftwareSourceCode",
@@ -80,7 +80,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
           keywords: [...part.shelves, part.name, part.reference.name].join(", "),
         }}
       />
-      <article className="min-w-0 max-w-3xl flex-1 space-y-12">
+      <article className="min-w-0 max-w-3xl flex-1 space-y-10">
         <header className="space-y-5">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <Link href={localePath(locale, "/parts/")} className="hover:text-foreground">
@@ -89,7 +89,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
             <span aria-hidden="true">/</span>
             <span>{part.shelves.map((s) => t.shelves[s].label).join(", ")}</span>
           </nav>
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2.5">
                 <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
@@ -99,7 +99,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
                 </span>
                 {part.sample && <SampleBadge t={t.sample} />}
               </div>
-              <p className="text-base text-muted-foreground sm:text-lg">{description}</p>
+              <p className="text-sm leading-7 text-muted-foreground">{description}</p>
             </div>
             <div className="flex shrink-0 gap-1.5">
               <PagerLink href={prev && localePath(locale, `/parts/${prev.name}/`)} label={t.part.previous} dir="prev" />
@@ -158,7 +158,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
               method: locale === "en" ? method.toLowerCase() : method,
             })}
           </p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="grid gap-3 sm:grid-cols-2">
             <Stat label={t.part.verification.reference} value={reference.name} detail={`${reference.language} ${reference.version}`} />
             <Stat label={t.part.verification.cases} value={n(v.cases)} detail={method} />
             <Stat
@@ -243,7 +243,7 @@ export async function PartDetailView({ params, locale }: PartParams & { locale: 
         </Section>
       </article>
 
-      <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-56 shrink-0 flex-col justify-between py-2 pb-8 xl:flex">
+      <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-40 shrink-0 flex-col justify-between py-2 pb-8 xl:flex">
         <div>
           <h4 className="mb-2 text-xs font-medium text-muted-foreground">{t.part.onThisPage}</h4>
           <ul className="space-y-2 text-[13px]">
@@ -339,7 +339,7 @@ function ProofItem({ href, label, value, unit }: { href: string; label: string; 
 
 function BenchmarkTable({ part, locale, t }: { part: Part; locale: Locale; t: Dictionary }) {
   return (
-    <details className="group overflow-hidden rounded-xl border bg-card shadow-xs">
+    <details className="group overflow-hidden rounded-lg border bg-card">
       <summary className="cursor-pointer px-4 py-2.5 text-sm text-muted-foreground select-none hover:text-foreground">
         {t.part.benchmarks.showTable}
       </summary>
