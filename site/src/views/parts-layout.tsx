@@ -16,11 +16,19 @@ export function PartsLayout({ locale, children }: { locale: Locale; children: Re
   }));
 
   return (
-    <div className="mx-auto flex max-w-screen-2xl gap-10 px-4 sm:px-6">
-      <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-56 shrink-0 overflow-y-auto py-8 pr-2 md:block">
+    <div className="mx-auto flex max-w-7xl gap-8 px-5 sm:px-8 lg:gap-10">
+      <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-48 shrink-0 overflow-y-auto border-r py-8 pr-5 md:block">
         <Sidebar sections={sections} allPartsHref={localePath(locale, "/parts/")} t={t.sidebar} />
       </aside>
-      <div className="min-w-0 flex-1">{children}</div>
+      <div className="min-w-0 flex-1">
+        <details className="mt-5 rounded-lg border p-3 md:hidden">
+          <summary className="cursor-pointer text-sm font-medium">{t.sidebar.allParts}</summary>
+          <div className="max-h-72 overflow-y-auto pt-4">
+            <Sidebar sections={sections} allPartsHref={localePath(locale, "/parts/")} t={t.sidebar} />
+          </div>
+        </details>
+        {children}
+      </div>
     </div>
   );
 }
