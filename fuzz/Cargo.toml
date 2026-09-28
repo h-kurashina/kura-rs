@@ -1,0 +1,26 @@
+# cargo-fuzz のターゲット（CI では動かさない）。nightly が要る：
+#   cargo install cargo-fuzz
+#   cargo +nightly fuzz run multi_pattern_match -- -max_total_time=600
+[package]
+name = "kura-fuzz"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+kura-parts = { path = "../crates/kura-parts" }
+libfuzzer-sys = "0.4"
+
+[[bin]]
+name = "multi_pattern_match"
+path = "fuzz_targets/multi_pattern_match.rs"
+test = false
+doc = false
+bench = false
+
+# リポジトリの workspace には入れない（stable の cargo build / test で nightly 用の crate を作らないため）
+[workspace]
+members = ["."]

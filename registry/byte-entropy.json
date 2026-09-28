@@ -2,10 +2,10 @@
   "$schema": "../schema/part.schema.json",
   "name": "byte-entropy",
   "title": "Byte Entropy",
-  "description": "Shannon entropy over sliding windows of a binary, for spotting packed or encrypted sections.",
+  "description": "Shannon entropy of bytes, over a whole buffer or fixed-size windows, for spotting packed or encrypted sections. Bit-for-bit the same as scipy.stats.entropy.",
   "version": "0.1.0",
   "added": "2026-09-26",
-  "sample": true,
+  "sample": false,
   "shelves": [
     "security"
   ],
@@ -15,64 +15,101 @@
     ],
     "dependencies": []
   },
+  "python": {
+    "package": "kura-rs",
+    "import_path": "from kura_rs import byte_entropy"
+  },
   "reference": {
     "name": "scipy.stats.entropy",
     "language": "Python",
-    "version": "1.14",
+    "version": "1.18.1",
     "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.entropy.html"
   },
   "verification": {
-    "method": "property",
-    "cases": 4000,
-    "passed": 4000,
-    "last_run": "2026-09-26T00:00:00Z"
+    "method": "differential",
+    "cases": 10000,
+    "passed": 10000,
+    "last_run": "2026-09-26T23:58:34Z"
   },
   "benchmarks": [
     {
       "input_size": 4096,
-      "rust_ms": 0.01,
-      "reference_ms": 0.35
+      "rust_ms": 0.002542,
+      "reference_ms": 0.125667
+    },
+    {
+      "input_size": 16384,
+      "rust_ms": 0.009667,
+      "reference_ms": 0.159125
     },
     {
       "input_size": 65536,
-      "rust_ms": 0.09,
-      "reference_ms": 2.9
+      "rust_ms": 0.038333,
+      "reference_ms": 0.281625
+    },
+    {
+      "input_size": 262144,
+      "rust_ms": 0.1195,
+      "reference_ms": 0.76475
     },
     {
       "input_size": 1048576,
-      "rust_ms": 1.4,
-      "reference_ms": 44
+      "rust_ms": 0.440625,
+      "reference_ms": 2.693708
+    },
+    {
+      "input_size": 4194304,
+      "rust_ms": 1.728917,
+      "reference_ms": 10.404042
     },
     {
       "input_size": 16777216,
-      "rust_ms": 22,
-      "reference_ms": 700
+      "rust_ms": 6.889792,
+      "reference_ms": 41.406188
+    },
+    {
+      "input_size": 67108864,
+      "rust_ms": 27.45275,
+      "reference_ms": 164.694334
+    },
+    {
+      "input_size": 268435456,
+      "rust_ms": 110.19025,
+      "reference_ms": 656.567708
     }
   ],
+  "environment": {
+    "cpu": "Apple M4 Pro",
+    "os": "macOS 27.0 (arm64)",
+    "rust": "rustc 1.98.1",
+    "reference_runtime": "Python 3.14.6, numpy 2.5.3, scipy 1.18.1"
+  },
+  "input_unit": "bytes of random data; entropy of every 4 KiB window (step 4 KiB). Reference: numpy.bincount over all windows at once + scipy.stats.entropy(axis=1)",
   "usage": {
-    "rust": "use crate::parts::byte_entropy::windows;\n\nfor w in windows(&binary, 4096) {\n    if w.entropy > 7.2 {\n        println!(\"offset {:#x}: likely packed ({:.2} bits/byte)\", w.offset, w.entropy);\n    }\n}"
+    "rust": "use crate::parts::byte_entropy::{entropy, windows};\n\n// Whole buffer, in bits per byte: same f64 as\n// scipy.stats.entropy(numpy.bincount(data, minlength=256), base=2)\nlet h = entropy(&binary);\n\n// Every whole 4 KiB window (step 4 KiB); a partial window at the end is skipped\nfor w in windows(&binary, 4096, 4096)? {\n    if w.entropy > 7.2 {\n        println!(\"offset {:#x}: likely packed ({:.2} bits/byte)\", w.offset, w.entropy);\n    }\n}",
+    "python": "from kura_rs import byte_entropy\n\n# Same float as scipy.stats.entropy(numpy.bincount(data, minlength=256), base=2)\nh = byte_entropy.entropy(data)\n\n# (offset, entropy) of every whole 4 KiB window (step defaults to the window size)\nfor offset, h in byte_entropy.windows(data, 4096):\n    if h > 7.2:\n        print(f\"{offset:#x}: likely packed ({h:.2f} bits/byte)\")\n\n# Overlapping windows: 4 KiB every 1 KiB (the GIL is released while computing)\nbyte_entropy.windows(data, 4096, 1024)"
   },
   "translations": {
     "ja": {
-      "description": "バイナリをずらしながら区切った窓ごとにシャノンエントロピーを計算し、圧縮や暗号化された部分を見つけます。"
+      "description": "バイト列のシャノンエントロピーを、全体または一定の大きさの窓ごとに計算し、圧縮や暗号化された部分を見つけます。scipy.stats.entropy とビット単位で同じ値を返します。"
     },
     "zh": {
-      "description": "在二进制文件的滑动窗口上计算香农熵，用于发现加壳或加密的区段。"
+      "description": "计算字节序列的香农熵（整体或按固定大小的窗口），用于发现加壳或加密的区段。结果与 scipy.stats.entropy 逐位相同。"
     },
     "ko": {
-      "description": "바이너리의 슬라이딩 윈도우마다 섀넌 엔트로피를 계산해 패킹되거나 암호화된 구간을 찾습니다."
+      "description": "바이트열의 섀넌 엔트로피를 전체 또는 고정 크기 윈도우마다 계산해 패킹되거나 암호화된 구간을 찾습니다. scipy.stats.entropy와 비트 단위로 같은 값을 돌려줍니다."
     },
     "es": {
-      "description": "Entropía de Shannon sobre ventanas deslizantes de un binario, para detectar secciones empaquetadas o cifradas."
+      "description": "Entropía de Shannon de bytes, sobre todo el búfer o por ventanas de tamaño fijo, para detectar secciones empaquetadas o cifradas. Idéntica bit a bit a scipy.stats.entropy."
     },
     "fr": {
-      "description": "Entropie de Shannon sur des fenêtres glissantes d'un binaire, pour repérer les sections compressées ou chiffrées."
+      "description": "Entropie de Shannon des octets, sur tout le tampon ou par fenêtres de taille fixe, pour repérer les sections compressées ou chiffrées. Identique bit à bit à scipy.stats.entropy."
     },
     "de": {
-      "description": "Shannon-Entropie über gleitende Fenster einer Binärdatei, um gepackte oder verschlüsselte Abschnitte zu finden."
+      "description": "Shannon-Entropie von Bytes, über den ganzen Puffer oder Fenster fester Größe, um gepackte oder verschlüsselte Abschnitte zu finden. Bitgenau gleich wie scipy.stats.entropy."
     },
     "pt": {
-      "description": "Entropia de Shannon em janelas deslizantes de um binário, para identificar seções compactadas ou criptografadas."
+      "description": "Entropia de Shannon de bytes, no buffer inteiro ou em janelas de tamanho fixo, para identificar seções compactadas ou criptografadas. Idêntica bit a bit a scipy.stats.entropy."
     }
   }
 }

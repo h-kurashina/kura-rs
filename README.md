@@ -9,7 +9,7 @@ kura-rs is a collection of small Rust parts for AI data processing (chunking, te
 
 Every part ships with evidence: differential tests against a reference implementation and benchmarks across input sizes.
 
-> `minhash` and `file-hash` are measured: their verification and benchmark numbers are written by `verify/run.py` after actually running the differential tests and benchmarks. The other parts in the registry still use **sample data** (`"sample": true`): their numbers are placeholders, not measurements.
+> `minhash`, `file-hash`, `multi-pattern-match`, `byte-entropy` and `unicode-normalize` are measured: their verification and benchmark numbers are written by `verify/run.py` after actually running the differential tests and benchmarks. The other parts in the registry (`text-chunker`, `token-counter`, `log-parse`) still use **sample data** (`"sample": true`): their numbers are placeholders, not measurements.
 
 ## Repository layout
 

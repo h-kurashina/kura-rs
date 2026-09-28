@@ -5,7 +5,7 @@
   "description": "Unicode cleanup for text pipelines: NFC/NFKC normalization, whitespace folding and removal of invisible characters.",
   "version": "0.1.0",
   "added": "2026-09-26",
-  "sample": true,
+  "sample": false,
   "shelves": [
     "ai"
   ],
@@ -16,7 +16,7 @@
     "dependencies": [
       {
         "name": "unicode-normalization",
-        "version": "0.1",
+        "version": "=0.1.24",
         "features": []
       }
     ]
@@ -28,50 +28,72 @@
   "reference": {
     "name": "unicodedata",
     "language": "Python",
-    "version": "3.12",
+    "version": "3.14.6",
     "url": "https://docs.python.org/3/library/unicodedata.html"
   },
   "verification": {
-    "method": "property",
-    "cases": 10000,
-    "passed": 10000,
-    "last_run": "2026-09-26T00:00:00Z"
+    "method": "differential",
+    "cases": 193984,
+    "passed": 193984,
+    "last_run": "2026-09-27T00:02:26Z"
   },
   "benchmarks": [
     {
-      "input_size": 10,
-      "rust_ms": 0.012,
-      "reference_ms": 0.004
+      "input_size": 1024,
+      "rust_ms": 0.00375,
+      "reference_ms": 0.028041
     },
     {
-      "input_size": 100,
-      "rust_ms": 0.02,
-      "reference_ms": 0.018
+      "input_size": 4096,
+      "rust_ms": 0.016,
+      "reference_ms": 0.113042
     },
     {
-      "input_size": 1000,
-      "rust_ms": 0.09,
-      "reference_ms": 0.16
+      "input_size": 16384,
+      "rust_ms": 0.071125,
+      "reference_ms": 0.506334
     },
     {
-      "input_size": 10000,
-      "rust_ms": 0.8,
-      "reference_ms": 1.7
+      "input_size": 65536,
+      "rust_ms": 0.28825,
+      "reference_ms": 1.923834
     },
     {
-      "input_size": 100000,
-      "rust_ms": 7.9,
-      "reference_ms": 17
+      "input_size": 262144,
+      "rust_ms": 1.107541,
+      "reference_ms": 7.863417
     },
     {
-      "input_size": 1000000,
-      "rust_ms": 78,
-      "reference_ms": 172
+      "input_size": 1048576,
+      "rust_ms": 4.412667,
+      "reference_ms": 32.197938
+    },
+    {
+      "input_size": 4194304,
+      "rust_ms": 17.658125,
+      "reference_ms": 127.787916
+    },
+    {
+      "input_size": 16777216,
+      "rust_ms": 70.016917,
+      "reference_ms": 514.411625
+    },
+    {
+      "input_size": 67108864,
+      "rust_ms": 280.528,
+      "reference_ms": 2065.763583
     }
   ],
+  "environment": {
+    "cpu": "Apple M4 Pro",
+    "os": "macOS 27.0 (arm64)",
+    "rust": "rustc 1.98.1",
+    "reference_runtime": "Python 3.14.6, unicodedata (Unicode 16.0.0)"
+  },
+  "input_unit": "bytes of UTF-8 text (NFKC; generated mix of Japanese and English sentences; 11 of the 34 sentence patterns contain full-width, half-width or other characters that NFKC changes)",
   "usage": {
-    "rust": "use crate::parts::unicode_normalize::{normalize, Options};\n\nlet clean = normalize(&raw, Options::nfkc().fold_whitespace().strip_invisible());",
-    "python": "from kura_rs import unicode_normalize\n\nclean = unicode_normalize.normalize(raw, form=\"NFKC\", fold_whitespace=True, strip_invisible=True)"
+    "rust": "use crate::parts::unicode_normalize::{is_normalized, normalize, Form, Options};\n\n// Remove invisible characters, NFKC, then fold whitespace (always in this order)\nlet clean = normalize(\"\\u{FEFF}ﾃﾞｰﾀ\\u{3000}\\u{3000}ＡＩ\\u{200B} \", Options::nfkc().fold_whitespace().strip_invisible());\nassert_eq!(clean, \"データ AI\");\n\n// Normalization only: same as Python's unicodedata.normalize(\"NFC\", text)\nassert_eq!(normalize(\"e\\u{301}\", Options::nfc()), \"\\u{E9}\");\nassert!(is_normalized(\"\\u{E9}\", Form::Nfc));\n\n// The result is a Cow<str>: text that is already clean is borrowed, not copied\nlet owned: String = clean.into_owned();",
+    "python": "from kura_rs import unicode_normalize\n\n# Remove invisible characters, NFKC, then fold whitespace (always in this order)\nclean = unicode_normalize.normalize(raw, form=\"NFKC\", fold_whitespace=True, strip_invisible=True)\n\n# Same as unicodedata.normalize(\"NFC\", text); unchanged text is returned as is\nunicode_normalize.normalize(\"e\\u0301\", \"NFC\")\nunicode_normalize.is_normalized(text, \"NFKC\")\n\n# Many texts at once (the GIL is released for the whole batch)\ncleaned = unicode_normalize.normalize_many(texts, \"NFKC\", fold_whitespace=True, strip_invisible=True)"
   },
   "translations": {
     "ja": {

@@ -3,6 +3,8 @@
     python verify/run.py minhash           # 差分テスト + ベンチマーク → registry に書き込む
     python verify/run.py minhash --check   # 差分テストだけ。registry の cases / passed と一致しなければ失敗（CI 用）
     python verify/run.py file-hash         # file-hash も同じ
+    python verify/run.py multi-pattern-match  # multi-pattern-match も同じ
+    python verify/run.py byte-entropy      # byte-entropy も同じ
     python verify/run.py minhash --synthetic  # ベンチマークを合成トークンで取る（registry の input_unit もそれに合わせる）
 
 数値は人が書かず、必ずこのスクリプトが書く。書き込むと sample は false になる。
@@ -16,6 +18,7 @@ import platform
 import ssl
 import subprocess
 import sys
+import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -56,7 +59,82 @@ PARTS = {
         # 期待値をわざと壊したケースが、すべて不一致になることも確かめる
         "tamper_field": "expected",
     },
+    "multi-pattern-match": {
+        "reference_package": "pyahocorasick",
+        "reference_runtime": lambda: (
+            f"Python {platform.python_version()}, pyahocorasick {importlib.metadata.version('pyahocorasick')} (C extension)"
+        ),
+        "cases": 5000,
+        "case_seed": 20260927,
+        # IOC 風のパターン 1,000 個で、アクセスログ風の入力を探す
+        "bench_args": [1000],
+        "sizes": [1 << k for k in range(10, 27, 2)],  # 1 KiB, 4 KiB, ..., 64 MiB
+        "input_unit": "bytes of access-log text searched for 1,000 IOC patterns (domains, IPs, hashes, paths); "
+        "all overlapping matches collected",
+        # 一致の列（[末尾の位置, 番号] のリスト）をわざと壊したケースが、すべて不一致になることも確かめる
+        "tamper_field": "expected",
+        "tamper": lambda matches, i: tamper_matches(matches, i),
+    },
+    "byte-entropy": {
+        # 答えは scipy.stats.entropy(numpy.bincount(data, minlength=256), base=2)。f64 のビット列で比べる（許容誤差 0）
+        "reference_package": "scipy",
+        "reference_label": "scipy.stats.entropy (bit-for-bit)",
+        "reference_runtime": lambda: (
+            f"Python {platform.python_version()}, numpy {importlib.metadata.version('numpy')}, "
+            f"scipy {importlib.metadata.version('scipy')}"
+        ),
+        "cases": 10000,
+        "case_seed": 20260927,
+        # 4 KiB の窓（4 KiB 刻み）をすべて計算する時間。参照は NumPy でまとめて数え、scipy.stats.entropy(axis=1) にかけるもの
+        "bench_args": ["windows", 4096],
+        "sizes": [1 << k for k in range(12, 29, 2)],  # 4 KiB, 16 KiB, ..., 256 MiB
+        "input_unit": "bytes of random data; entropy of every 4 KiB window (step 4 KiB). Reference: numpy.bincount "
+        "over all windows at once + scipy.stats.entropy(axis=1)",
+        # 期待値をわざと壊したケースが、すべて不一致になることも確かめる
+        "tamper_field": "expected",
+    },
+    "unicode-normalize": {
+        # 正規化は unicodedata（Python に付いてくる）と公式の NormalizationTest.txt、
+        # 空白のまとめと見えない文字の除去は verify/unicode-normalize/reference.py の定義と比べる
+        "reference_package": "unicodedata",
+        "reference_label": "unicodedata / NormalizationTest-16.0.0.txt",
+        "reference_version": platform.python_version,
+        "reference_runtime": lambda: f"Python {platform.python_version()}, unicodedata (Unicode {unicodedata.unidata_version})",
+        "prepare": [["verify/unicode-normalize/reference.py", "fetch"]],
+        # ランダム・意地悪な入力の数（ほかに NormalizationTest.txt の全行と、すべての符号位置を1文字ずつ見るケースがつく）
+        "cases": 40000,
+        "case_seed": 20260927,
+        # 記録するのは NFKC（unicodedata.normalize）。パイプライン全体は表示だけ
+        "bench_args": ["NFKC"],
+        "extra_bench_args": [["pipeline"]],
+        "sizes": [1 << k for k in range(10, 27, 2)],  # 1 KiB, 4 KiB, ..., 64 MiB
+        "input_unit": "bytes of UTF-8 text (NFKC; generated mix of Japanese and English sentences; "
+        "11 of the 34 sentence patterns contain full-width, half-width or other characters that NFKC changes)",
+        "tamper_field": "expected",
+    },
 }
+
+
+def tamper_matches(matches: list, i: int) -> list:
+    """一致の列を必ず違うものにする：1つ消す・1つ足す・番号を変える・位置を変える・順番を入れ替える。"""
+    matches = [list(m) for m in matches]
+    if not matches:
+        return [[0, 0]]
+    k = i % len(matches)
+    way = i % 5
+    if way == 0:
+        del matches[k]
+    elif way == 1:
+        matches.insert(k, list(matches[k]))
+    elif way == 2:
+        matches[k][1] += 1
+    elif way == 3:
+        matches[k][0] += 1
+    elif len(matches) >= 2 and matches[k] != matches[k - 1]:
+        matches[k], matches[k - 1] = matches[k - 1], matches[k]
+    else:
+        matches.append([matches[-1][0] + 1, 0])
+    return matches
 
 
 def run(args, stdin=None) -> str:
@@ -85,6 +163,8 @@ def verify(name: str, config: dict) -> dict:
     for failure in report["failures"]:
         print(f"  mismatch: {failure}", file=sys.stderr)
     print(f"{name}: {report['passed']} / {report['cases']} cases match {config.get('reference_label', config['reference_package'])}")
+    if "max_abs_error" in report:
+        print(f"  largest difference from the reference: {report['max_abs_error']:g} (relative {report['max_rel_error']:g})")
     if "tamper_field" in config:
         tamper_check(name, config, cases)
     return report
@@ -97,8 +177,11 @@ def tamper_check(name: str, config: dict, cases: str, limit: int = 2000) -> None
     for i, line in enumerate(cases.splitlines()[:limit]):
         case = json.loads(line)
         value = case[field]
-        pos = i % len(value)
-        case[field] = value[:pos] + ("1" if value[pos] == "0" else "0") + value[pos + 1:]
+        if "tamper" in config:
+            case[field] = config["tamper"](value, i)
+        else:
+            pos = i % len(value) if value else 0
+            case[field] = value[:pos] + ("1" if value[pos:pos + 1] == "0" else "0") + value[pos + 1:]
         lines.append(json.dumps(case))
     report = json.loads(run([rust_bin(name), "verify"], stdin="\n".join(lines) + "\n"))
     if report["cases"] != len(lines) or report["passed"] != 0:
@@ -106,16 +189,21 @@ def tamper_check(name: str, config: dict, cases: str, limit: int = 2000) -> None
     print(f"{name}: all {report['cases']} tampered cases were rejected")
 
 
-def bench(name: str, config: dict) -> list[dict]:
+def bench(name: str, config: dict, bench_args: list | None = None) -> list[dict]:
     sizes = [str(s) for s in config["sizes"]]
-    bench_args = [str(a) for a in config.get("bench_args", [config.get("num_perm")])]
+    bench_args = [str(a) for a in bench_args or config.get("bench_args", [config.get("num_perm")])]
     rust = json.loads(run([rust_bin(name), "bench", *bench_args, *sizes]))
     reference = json.loads(run([PYTHON, f"verify/{name}/reference.py", "bench", *bench_args, *sizes]))
     points = []
     for r, p in zip(rust, reference, strict=True):
         assert r["input_size"] == p["input_size"]
+        assert r.get("text_sha1") == p.get("text_sha1"), f"Rust and Python benchmarked different inputs: {r} {p}"
         points.append({"input_size": r["input_size"], "rust_ms": round(r["rust_ms"], 6), "reference_ms": round(p["reference_ms"], 6)})
         print(f"  {r['input_size']:>10}: rust {r['rust_ms']:10.4f} ms   reference {p['reference_ms']:10.4f} ms")
+        # registry の曲線には入れない、ほかの計り方（部品が出していれば表示だけ）
+        for key in sorted(({**r, **p}.keys()) - {"input_size", "rust_ms", "reference_ms"}):
+            times = [f"{side} {d[key]:10.4f} ms" for side, d in [("rust", r), ("reference", p)] if key in d]
+            print(f"  {'':>10}  {key}: {'   '.join(times)}")
     return points
 
 
@@ -190,6 +278,10 @@ def main() -> None:
 
     synthetic = args.synthetic or "text_case_seed" not in config
     points = bench(args.name, config) if synthetic else bench_text(args.name, config)
+    for extra in config.get("extra_bench_args", []):
+        # registry には入れず、表示だけ
+        print(f"  {' '.join(extra)} (not recorded):")
+        bench(args.name, config, extra)
     updates = {
         "sample": False,
         "verification": {

@@ -84,6 +84,21 @@ jobs:
       # SHA-256 は hashlib、BLAKE3 は blake3 パッケージと突き合わせる。期待値を壊したケースがすべて落ちることも見る
       - name: file-hash vs hashlib / blake3
         run: python verify/run.py file-hash --check
+      # pyahocorasick の iter() と、一致の並び順まで突き合わせる。一致の列を壊したケースがすべて落ちることも見る
+      - name: multi-pattern-match vs pyahocorasick
+        run: python verify/run.py multi-pattern-match --check
+      # scipy.stats.entropy(numpy.bincount(...), base=2) と f64 のビット列で突き合わせる（許容誤差 0）。期待値を壊したケースがすべて落ちることも見る
+      - name: byte-entropy vs scipy.stats.entropy
+        run: python verify/run.py byte-entropy --check
+      # Unicode 公式の NormalizationTest.txt（16.0.0。URL と SHA-256 は reference.py で固定）。取得は初回だけ
+      - name: Cache NormalizationTest.txt
+        uses: actions/cache@v6
+        with:
+          path: verify/data/unicode-normalize
+          key: unicode-normalization-test-${{ hashFiles('verify/unicode-normalize/reference.py') }}
+      # unicodedata（Python 3.14 = Unicode 16.0.0）・NormalizationTest.txt・すべての符号位置と突き合わせる。期待値を壊したケースがすべて落ちることも見る
+      - name: unicode-normalize vs unicodedata / NormalizationTest.txt
+        run: python verify/run.py unicode-normalize --check
       # NIST の "extremely long message"（1 GiB）。遅いので普段の cargo test では飛ばしている
       - name: file-hash 1 GiB SHA-256 test vector
         run: cargo test --release -p kura-parts --test file_hash_vectors -- --ignored

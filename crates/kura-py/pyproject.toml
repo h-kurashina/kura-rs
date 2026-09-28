@@ -27,7 +27,7 @@ Repository = "https://github.com/h-kurashina/kura-rs"
 
 [project.optional-dependencies]
 # テストで参照実装と突き合わせるためのもの（使うだけなら不要）
-test = ["pytest>=8", "hypothesis>=6", "datasketch==2.0.0", "numpy==2.5.3", "blake3==1.0.9"]
+test = ["pytest>=8", "hypothesis>=6", "datasketch==2.0.0", "numpy==2.5.3", "blake3==1.0.9", "pyahocorasick==2.3.1", "scipy==1.18.1"]
 
 [tool.maturin]
 python-source = "python"
