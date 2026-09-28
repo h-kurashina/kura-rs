@@ -18,7 +18,7 @@ export function CodeTabs({ tabs, labels, icon = "code" }: { tabs: CodeTab[]; lab
   if (!current) return null;
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-code">
+    <div className="overflow-hidden rounded-lg border bg-code">
       <div className="flex h-11 items-center gap-2 border-b bg-code-header px-3">
         <span className="flex size-5 items-center justify-center rounded-sm bg-foreground/80 text-background" aria-hidden="true">
           {icon === "terminal" ? (

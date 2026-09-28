@@ -8,21 +8,17 @@ import { SITE } from "@/lib/site";
 
 export function SiteHeader({ locale, t, search }: { locale: Locale; t: Dictionary; search?: ReactNode }) {
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-2 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur-lg supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-2 px-4 sm:px-8">
         <Link
           href={localePath(locale, "/")}
-          className="group/logo mr-3 inline-flex h-8 items-center gap-2 rounded-lg px-1.5 font-mono text-[15px] font-semibold tracking-tight"
+          className="group/logo mr-1 sm:mr-5 inline-flex h-8 items-center gap-2 rounded-lg px-1.5 font-mono text-[15px] font-semibold tracking-tight"
         >
           <LogoMark className="size-6" />
           kura-rs
         </Link>
         <nav className="flex items-center gap-0.5 text-sm font-medium">
           <HeaderLink href={localePath(locale, "/parts/")}>{t.nav.parts}</HeaderLink>
-          <HeaderLink href={localePath(locale, "/parts/#ai")}>{t.shelves.ai.label}</HeaderLink>
-          <HeaderLink href={localePath(locale, "/parts/#security")} className="hidden sm:inline-flex">
-            {t.shelves.security.label}
-          </HeaderLink>
         </nav>
         <div className="ml-auto flex items-center gap-1.5">
           {search}
