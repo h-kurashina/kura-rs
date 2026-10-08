@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { ReactNode } from "react";
 import { fontVariables } from "@/lib/fonts";
 import { CommandMenu, type CommandGroupData } from "@/components/command-menu";
@@ -49,6 +50,7 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
         />
         <main>{children}</main>
       </body>
+      <GoogleAnalytics gaId={SITE.gaId} />
     </html>
   );
 }
