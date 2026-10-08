@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { LogoMark } from "@/components/logo";
 import { getDictionary, LOCALE_INFO, LOCALES } from "@/i18n/dictionaries";
 import { localePath } from "@/i18n/locale";
 import { fontVariables } from "@/lib/fonts";
+import { SITE } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = { title: "404 · kura-rs", robots: { index: false } };
@@ -34,6 +36,7 @@ export default function GlobalNotFound() {
           </ul>
         </main>
       </body>
+      <GoogleAnalytics gaId={SITE.gaId} />
     </html>
   );
 }
